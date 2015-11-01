@@ -8,9 +8,11 @@ class GameWindow
 {
 private:
     sf::RenderWindow* m_window;
+    int m_width;
+    int m_height;
     int m_scale;
 
-    GameWindow(int width, int height, int scale);
+    GameWindow();
     ~GameWindow();
 
     GameWindow(GameWindow const&) = delete;
@@ -18,6 +20,10 @@ private:
 
 public:
     static GameWindow& instance();
+    void open();
+    void setWidth(int width);
+    void setHeight(int height);
+    void setScale(int scale);
     void render(sf::CircleShape& shape);
     sf::RenderWindow* getWindow();
 };

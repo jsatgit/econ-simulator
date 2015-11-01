@@ -4,9 +4,12 @@
 class Config
 {
 private:
-    /* data */
 
 public:
+    int windowWidth;
+    int windowHeight;
+    int windowScale;
+    Config();
 };
 
 #endif /* CONFIG_H */

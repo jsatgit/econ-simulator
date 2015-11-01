@@ -5,17 +5,19 @@
 #include "config.h"
 #include "game.h"
 
+#include <iostream>
+
 using namespace sf;
+using namespace std;
 
 int main(int argc, char* argv[]) {
-    RenderWindow* window = GameWindow::instance().getWindow();
-
-    window->setFramerateLimit(60);
 
     Config config;
     Game game;
     game.configure(config);
     game.start();
+
+    RenderWindow* window = GameWindow::instance().getWindow();
 
     while (window->isOpen()) {
         Event Event;

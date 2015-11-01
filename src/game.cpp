@@ -1,4 +1,6 @@
 #include "game.h"
+#include "gameWindow.h"
+#include <iostream>
 
 Game::Game()
 {
@@ -6,24 +8,27 @@ Game::Game()
 
 void Game::configure(const Config& config)
 {
+    GameWindow& gameWindow = GameWindow::instance();
+    gameWindow.setWidth(config.windowWidth);
+    gameWindow.setHeight(config.windowHeight);
+    gameWindow.setScale(config.windowScale);
     int numMonsters = 10;
     for (int i = 0; i < numMonsters; ++i) {
-        m_monsters.push_back(Monster(1));
+        Monster monster(1);
+        monster.setPosition(sf::Vector2f(100,100));
+        m_monsters.push_back(monster);
     }
     int numHills = 1;
     for (int i = 0; i < numHills; ++i) {
-        m_hills.push_back(Hill(50, 10));
+        Hill hill(50, 10);
+        hill.setPosition(sf::Vector2f(100,100));
+        m_hills.push_back(hill);
     }
 }
 
 void Game::start()
 {
-    for (auto& monster: m_monsters) {
-        monster.setPosition(sf::Vector2f(100,100));
-    }
-    for (auto& hill: m_hills) {
-        hill.setPosition(sf::Vector2f(100,100));
-    }
+    GameWindow::instance().open();
 }
 
 void Game::tick()
