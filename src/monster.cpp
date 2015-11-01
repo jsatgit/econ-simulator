@@ -6,12 +6,12 @@
 
 using namespace sf;
 
-void Monster::setPosition(Vector2f position)
+void Monster::setPosition(const Vector2f& position)
 {
     m_position = position;
 }
 
-void Monster::move()
+void Monster::randomWalk()
 {
     m_position = Positioner::instance().next(m_position);
 }

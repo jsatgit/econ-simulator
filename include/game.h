@@ -5,11 +5,13 @@
 
 #include "config.h"
 #include "monster.h"
+#include "hill.h"
 
 class Game
 {
 private:
     std::vector<Monster> m_monsters;
+    std::vector<Hill> m_hills;
 
 public:
     Game();
