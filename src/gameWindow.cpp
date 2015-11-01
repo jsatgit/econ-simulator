@@ -1,9 +1,11 @@
 #include "gameWindow.h"
+#include <SFML/System/Vector2.hpp>
 
 using namespace sf;
 
-GameWindow::GameWindow() : 
-    m_window(new RenderWindow(VideoMode(800, 600), "hills"))
+GameWindow::GameWindow(int width, int height, int scale) : 
+    m_window(new RenderWindow(VideoMode(width * scale, height * scale), "hills")),
+    m_scale(scale)
 {
 }
 
@@ -14,13 +16,17 @@ GameWindow::~GameWindow()
 
 GameWindow& GameWindow::instance()
 {
-    static GameWindow instance;
+    static GameWindow instance(200, 200, 8);
     return instance;
 }
 
-void GameWindow::render(const Drawable& drawable)
+void GameWindow::render(CircleShape& shape)
 {
-    m_window->draw(drawable);
+    const Vector2f& position = shape.getPosition();
+    shape.setPosition(position.x * m_scale, position.y * m_scale);
+    int radius = shape.getRadius();
+    shape.setRadius(radius * m_scale);
+    m_window->draw(shape);
 }
 
 RenderWindow* GameWindow::getWindow()

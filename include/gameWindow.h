@@ -2,13 +2,15 @@
 #define WINDOW_H
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 
 class GameWindow 
 {
 private:
     sf::RenderWindow* m_window;
+    int m_scale;
 
-    GameWindow();
+    GameWindow(int width, int height, int scale);
     ~GameWindow();
 
     GameWindow(GameWindow const&) = delete;
@@ -16,7 +18,7 @@ private:
 
 public:
     static GameWindow& instance();
-    void render(const sf::Drawable& drawable);
+    void render(sf::CircleShape& shape);
     sf::RenderWindow* getWindow();
 };
 

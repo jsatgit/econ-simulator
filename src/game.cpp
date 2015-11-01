@@ -8,18 +8,18 @@ void Game::configure(const Config& config)
 {
     int numMonsters = 10;
     for (int i = 0; i < numMonsters; ++i) {
-        m_monsters.push_back(Monster());
+        m_monsters.push_back(Monster(1));
     }
     int numHills = 1;
     for (int i = 0; i < numHills; ++i) {
-        m_hills.push_back(Hill(200, 10));
+        m_hills.push_back(Hill(50, 10));
     }
 }
 
 void Game::start()
 {
     for (auto& monster: m_monsters) {
-        monster.setPosition(sf::Vector2f(400,300));
+        monster.setPosition(sf::Vector2f(100,100));
     }
     for (auto& hill: m_hills) {
         hill.setPosition(sf::Vector2f(100,100));
