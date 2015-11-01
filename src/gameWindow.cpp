@@ -21,7 +21,7 @@ GameWindow& GameWindow::instance()
 void GameWindow::open()
 {
     m_window = new RenderWindow(VideoMode(m_width * m_scale, m_height * m_scale), "hills");
-    m_window->setFramerateLimit(60);
+    m_window->setFramerateLimit(m_frameRate);
 }
 
 void GameWindow::setWidth(int width)
@@ -37,6 +37,16 @@ void GameWindow::setHeight(int height)
 void GameWindow::setScale(int scale)
 {
     m_scale = scale;
+}
+
+void GameWindow::setFramerate(int frameRate)
+{
+    m_frameRate = frameRate;
+}
+
+int GameWindow::getFramerate()
+{
+    return m_frameRate;
 }
 
 void GameWindow::render(CircleShape& shape)

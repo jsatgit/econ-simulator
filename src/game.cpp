@@ -12,9 +12,11 @@ void Game::configure(const Config& config)
     gameWindow.setWidth(config.windowWidth);
     gameWindow.setHeight(config.windowHeight);
     gameWindow.setScale(config.windowScale);
+    gameWindow.setFramerate(config.framerate);
     int numMonsters = 10;
     for (int i = 0; i < numMonsters; ++i) {
         Monster monster(1);
+        monster.setSpeed(10);
         monster.setPosition(sf::Vector2f(100,100));
         m_monsters.push_back(monster);
     }

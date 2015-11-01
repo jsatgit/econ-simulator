@@ -11,6 +11,7 @@ private:
     int m_width;
     int m_height;
     int m_scale;
+    int m_frameRate;
 
     GameWindow();
     ~GameWindow();
@@ -24,6 +25,8 @@ public:
     void setWidth(int width);
     void setHeight(int height);
     void setScale(int scale);
+    void setFramerate(int frameRate);
+    int getFramerate();
     void render(sf::CircleShape& shape);
     sf::RenderWindow* getWindow();
 };

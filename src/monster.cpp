@@ -6,7 +6,9 @@
 
 using namespace sf;
 
-Monster::Monster(int size) : m_size(size)
+Monster::Monster(int size) : 
+    m_size(size),
+    m_turnCount(0)
 {
 }
 
@@ -15,9 +17,28 @@ void Monster::setPosition(const Vector2f& position)
     m_position = position;
 }
 
+void Monster::setSpeed(int speed)
+{
+    int framerate = GameWindow::instance().getFramerate();
+    m_speed = speed  > framerate ? framerate : speed;
+    m_turnMax = framerate / m_speed;
+}
+
+bool Monster::checkTurn()
+{
+    bool res = false;
+    if (++m_turnCount == m_turnMax) {
+        m_turnCount = 0;
+        res = true; 
+    }
+    return res;
+}
+
 void Monster::randomWalk()
 {
-    m_position = Positioner::instance().next(m_position);
+    if (checkTurn()) {
+        m_position = Positioner::instance().next(m_position);
+    } 
 }
 
 void Monster::render()

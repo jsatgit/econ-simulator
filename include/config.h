@@ -9,6 +9,7 @@ public:
     int windowWidth;
     int windowHeight;
     int windowScale;
+    int framerate;
     Config();
 };
 
