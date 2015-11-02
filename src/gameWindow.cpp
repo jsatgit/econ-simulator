@@ -49,6 +49,16 @@ int GameWindow::getFramerate()
     return m_frameRate;
 }
 
+int GameWindow::getWidth()
+{
+    return m_width;
+}
+
+int GameWindow::getHeight()
+{
+    return m_height;
+}
+
 void GameWindow::render(CircleShape& shape)
 {
     const Vector2f& position = shape.getPosition();

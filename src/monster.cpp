@@ -8,7 +8,8 @@ using namespace sf;
 
 Monster::Monster(int size) : 
     m_size(size),
-    m_turnCount(0)
+    m_turnCount(0),
+    m_goal(Positioner::instance().generateGoal())
 {
 }
 
@@ -34,10 +35,10 @@ bool Monster::checkTurn()
     return res;
 }
 
-void Monster::randomWalk()
+void Monster::move()
 {
     if (checkTurn()) {
-        m_position = Positioner::instance().next(m_position);
+        m_position = Positioner::instance().nextRandGoal(m_position, m_goal);
     } 
 }
 

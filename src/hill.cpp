@@ -18,7 +18,6 @@ void Hill::setPosition(const Vector2f& position)
 
 void Hill::move()
 {
-    m_position = Positioner::instance().next(m_position);
 }
 
 void Hill::render()

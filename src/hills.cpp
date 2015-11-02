@@ -5,10 +5,7 @@
 #include "config.h"
 #include "game.h"
 
-#include <iostream>
-
 using namespace sf;
-using namespace std;
 
 int main(int argc, char* argv[]) {
 

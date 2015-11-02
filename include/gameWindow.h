@@ -27,6 +27,8 @@ public:
     void setScale(int scale);
     void setFramerate(int frameRate);
     int getFramerate();
+    int getWidth();
+    int getHeight();
     void render(sf::CircleShape& shape);
     sf::RenderWindow* getWindow();
 };

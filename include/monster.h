@@ -12,12 +12,13 @@ private:
     int m_turnMax;
     int m_turnCount;
     bool checkTurn();
+    sf::Vector2f m_goal;
 
 public:
     Monster(int size);
     void setPosition(const sf::Vector2f& position);
     void setSpeed(int speed);
-    void randomWalk();
+    void move();
     void render();
 };
 

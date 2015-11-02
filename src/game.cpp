@@ -1,6 +1,5 @@
 #include "game.h"
 #include "gameWindow.h"
-#include <iostream>
 
 Game::Game()
 {
@@ -13,10 +12,10 @@ void Game::configure(const Config& config)
     gameWindow.setHeight(config.windowHeight);
     gameWindow.setScale(config.windowScale);
     gameWindow.setFramerate(config.framerate);
-    int numMonsters = 10;
+    int numMonsters = 1;
     for (int i = 0; i < numMonsters; ++i) {
         Monster monster(1);
-        monster.setSpeed(10);
+        monster.setSpeed(15);
         monster.setPosition(sf::Vector2f(100,100));
         m_monsters.push_back(monster);
     }
@@ -36,7 +35,7 @@ void Game::start()
 void Game::tick()
 {
     for (auto& monster: m_monsters) {
-        monster.randomWalk(); 
+        monster.move(); 
     }
 }
 
