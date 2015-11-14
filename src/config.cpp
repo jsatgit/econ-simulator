@@ -1,8 +1,8 @@
 #include "config.h"
 
 Config::Config() :
-    windowWidth(200),
-    windowHeight(200),
+    windowWidth(128),
+    windowHeight(128),
     windowScale(8),
     framerate(60)
 {

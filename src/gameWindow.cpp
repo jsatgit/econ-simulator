@@ -62,8 +62,8 @@ int GameWindow::getHeight()
 void GameWindow::render(CircleShape& shape)
 {
     const Vector2f& position = shape.getPosition();
-    shape.setPosition(position.x * m_scale, position.y * m_scale);
     int radius = shape.getRadius();
+    shape.setPosition((position + Vector2f(radius, radius)) * (float)m_scale);
     shape.setRadius(radius * m_scale);
     m_window->draw(shape);
 }

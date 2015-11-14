@@ -42,7 +42,7 @@ int Positioner::getSign(int num)
 Vector2f Positioner::nextRandGoal(const Vector2f& current, Vector2f& goal)
 {
     if (current == goal) {
-        goal = generateGoal(); 
+        goal = generateGoal();
     }
     int signX = getSign(goal.x - current.x);
     int signY = getSign(goal.y - current.y);
@@ -51,5 +51,5 @@ Vector2f Positioner::nextRandGoal(const Vector2f& current, Vector2f& goal)
 
 void Positioner::print(const char* msg, const sf::Vector2f& position)
 {
-    cout << msg << ": " << position.x << "," << position.y << endl; 
+    cout << msg << ": " << position.x << "," << position.y << endl;
 }

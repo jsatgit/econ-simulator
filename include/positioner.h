@@ -4,7 +4,7 @@
 #include <random>
 #include <SFML/System/Vector2.hpp>
 
-class Positioner 
+class Positioner
 {
 private:
     std::default_random_engine m_generator;
