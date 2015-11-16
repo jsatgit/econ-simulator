@@ -65,6 +65,5 @@ void Game::render()
     }
     for (auto& monster: m_monsters) {
         monster.render();
-        monster.clear();
     }
 }

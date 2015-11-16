@@ -21,14 +21,17 @@ Monster::Monster(int size) :
 {
 }
 
+void Monster::onBeginCollisionWith(Monster& monster) {
+    m_gold++;
+}
+
+void Monster::onEndCollisionWith(Monster& monster) {
+}
+
+
 void Monster::setPosition(const Vector2f& position)
 {
     m_position = position;
-}
-
-const sf::Vector2f& Monster::getPosition() const
-{
-    return m_position;
 }
 
 void Monster::setSpeed(int speed)
@@ -36,6 +39,31 @@ void Monster::setSpeed(int speed)
     int framerate = GameWindow::instance().getFramerate();
     m_speed = speed  > framerate ? framerate : speed;
     m_moveCounter = TurnCounter(framerate / m_speed);
+}
+
+void Monster::setGold(int gold)
+{
+    m_gold = gold;
+}
+
+void Monster::giveGold(int gold)
+{
+    m_gold += gold;
+}
+
+const sf::Vector2f& Monster::getPosition() const
+{
+    return m_position;
+}
+
+int Monster::getSize() const
+{
+    return m_size;
+}
+
+int Monster::askGold() const
+{
+    return m_gold;
 }
 
 void Monster::move()
@@ -80,43 +108,12 @@ void Monster::addCollider(Monster& monster)
     }
 }
 
-int Monster::askGold() const
-{
-    return m_gold;
-}
-
-int Monster::getSize() const
-{
-    return m_size;
-}
-
-void Monster::clear()
-{
-}
-
-void Monster::setGold(int gold)
-{
-    m_gold = gold;
-}
-
-void Monster::giveGold(int gold)
-{
-    m_gold += gold;
-}
-
 void Monster::removeCollider(Monster& monster)
 {
     auto erased = m_colliders.erase(&monster);
     if (erased) {
         onEndCollisionWith(monster);
     }
-}
-
-void Monster::onBeginCollisionWith(Monster& monster) {
-    m_gold++;
-}
-
-void Monster::onEndCollisionWith(Monster& monster) {
 }
 
 void Monster::interact() {
