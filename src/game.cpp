@@ -12,16 +12,21 @@ void Game::configure(const Config& config)
     gameWindow.setHeight(config.windowHeight);
     gameWindow.setScale(config.windowScale);
     gameWindow.setFramerate(config.framerate);
-    int numMonsters = 2;
+    int numMonsters = 10;
     for (int i = 0; i < numMonsters; ++i) {
         Monster monster(2);
         monster.setSpeed(15);
-        monster.setPosition(sf::Vector2f(100,100));
+        monster.setPosition(sf::Vector2f(i*5, i*5));
         m_monsters.push_back(monster);
     }
+    Monster monster(2);
+    monster.setSpeed(15);
+    monster.setGold(2);
+    monster.setPosition(sf::Vector2f(100,100));
+    m_monsters.push_back(monster);
     int numHills = 1;
     for (int i = 0; i < numHills; ++i) {
-        Hill hill(50, 10);
+        Hill hill(60, 60);
         hill.setPosition(sf::Vector2f(50, 50));
         m_hills.push_back(hill);
     }
@@ -42,6 +47,9 @@ void Game::tick()
             if (m_monsters[i].collidesWith(m_monsters[j])) {
                 m_monsters[i].addCollider(m_monsters[j]);
                 m_monsters[j].addCollider(m_monsters[i]);
+            } else {
+                m_monsters[i].removeCollider(m_monsters[j]);
+                m_monsters[j].removeCollider(m_monsters[i]);
             }
         }
     }

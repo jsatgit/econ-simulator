@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Text.hpp>
+
+#include <string>
 
 class GameWindow 
 {
@@ -30,6 +33,7 @@ public:
     int getWidth();
     int getHeight();
     void render(sf::CircleShape& shape);
+    void render(sf::Text& text);
     sf::RenderWindow* getWindow();
 };
 

@@ -3,9 +3,11 @@
 #include "monster.h"
 #include "gameWindow.h"
 #include "positioner.h"
+#include "textCreator.h"
 #include <cmath>
 
 #include <iostream>
+#include <string>
 
 using namespace sf;
 using namespace std;
@@ -14,6 +16,7 @@ Monster::Monster(int size) :
     m_hasCollision(false),
     m_size(size),
     m_turnCount(0),
+    m_gold(0),
     m_goal(Positioner::instance().generateGoal())
 {
 }
@@ -62,6 +65,11 @@ void Monster::render()
     }
     circle.setPosition(m_position);
     GameWindow::instance().render(circle);
+
+    Text text = TextCreator::instance().createDialog(to_string(m_gold));
+    text.setPosition(m_position);
+    text.setCharacterSize(m_size * 8);
+    GameWindow::instance().render(text);
 }
 
 bool Monster::collidesWith(const Monster& monster)
@@ -74,9 +82,18 @@ bool Monster::collidesWith(const Monster& monster)
     return squaredDistance <= combinedRadiusSquared;
 }
 
-void Monster::addCollider(const Monster& monster)
+void Monster::addCollider(Monster& monster)
 {
     m_hasCollision = true;
+    auto res = m_colliders.insert(&monster);
+    if (res.second) {
+        onBeginCollisionWith(monster);
+    }
+}
+
+int Monster::askGold() const
+{
+    return m_gold;
 }
 
 int Monster::getSize() const
@@ -87,4 +104,29 @@ int Monster::getSize() const
 void Monster::clear()
 {
     m_hasCollision = false;
+}
+
+void Monster::setGold(int gold)
+{
+    m_gold = gold;
+}
+
+void Monster::giveGold(int gold)
+{
+    m_gold += gold;
+}
+
+void Monster::removeCollider(Monster& monster)
+{
+    auto erased = m_colliders.erase(&monster);
+    if (erased) {
+        onEndCollisionWith(monster);
+    }
+}
+
+void Monster::onBeginCollisionWith(Monster& monster) {
+    m_gold++;
+}
+
+void Monster::onEndCollisionWith(Monster& monster) {
 }

@@ -1,11 +1,13 @@
 #include "positioner.h"
 #include "gameWindow.h"
 #include <iostream>
+#include <chrono>
 
 using namespace sf;
 using namespace std;
 
 Positioner::Positioner() : 
+    m_generator(chrono::system_clock::now().time_since_epoch().count()),
     m_screen_x_distribution(uniform_int_distribution<int>(0, GameWindow::instance().getWidth() - 1)),
     m_screen_y_distribution(uniform_int_distribution<int>(0, GameWindow::instance().getHeight() - 1))
 {

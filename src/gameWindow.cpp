@@ -68,6 +68,14 @@ void GameWindow::render(CircleShape& shape)
     m_window->draw(shape);
 }
 
+void GameWindow::render(Text& text)
+{
+    text.setOrigin(-3 * m_scale, -3 * m_scale);
+    const Vector2f& position = text.getPosition();
+    text.setPosition(position * (float)m_scale);
+    m_window->draw(text);
+}
+
 RenderWindow* GameWindow::getWindow()
 {
     return m_window;
