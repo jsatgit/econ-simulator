@@ -116,7 +116,6 @@ void Monster::removeCollider(Monster& monster)
     }
 }
 
-void Monster::interact() {
+void Monster::tick() {
     m_hasCollision = m_colliders.empty() ? false : true;
-    m_health--;
 }

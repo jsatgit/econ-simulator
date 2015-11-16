@@ -39,7 +39,7 @@ public:
     bool collidesWith(const Monster& monster);
     void addCollider(Monster& monster);
     void removeCollider(Monster& monster);
-    void interact();
+    void tick();
 };
 
 #endif /* MONSTER_H */

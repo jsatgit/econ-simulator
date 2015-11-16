@@ -37,11 +37,8 @@ void Game::start()
     GameWindow::instance().open();
 }
 
-void Game::tick()
+void Game::applyCollisionDetection()
 {
-    for (auto& monster: m_monsters) {
-        monster.move();
-    }
     for (int i = 0; i < m_monsters.size(); ++i) {
         for (int j = i+1; j < m_monsters.size(); ++j) {
             if (m_monsters[i].collidesWith(m_monsters[j])) {
@@ -53,8 +50,16 @@ void Game::tick()
             }
         }
     }
+}
+
+void Game::tick()
+{
     for (auto& monster: m_monsters) {
-        monster.interact();
+        monster.move();
+    }
+    applyCollisionDetection();
+    for (auto& monster: m_monsters) {
+        monster.tick();
     }
 }
 

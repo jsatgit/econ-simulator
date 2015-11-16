@@ -17,6 +17,7 @@ public:
     Game();
     void configure(const Config& config);
     void start();
+    void applyCollisionDetection();
     void tick();
     void render();
 };
