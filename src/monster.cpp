@@ -15,8 +15,8 @@ using namespace std;
 Monster::Monster(int size) :
     m_hasCollision(false),
     m_size(size),
-    m_turnCount(0),
     m_gold(0),
+    m_health(100),
     m_goal(Positioner::instance().generateGoal())
 {
 }
@@ -35,22 +35,12 @@ void Monster::setSpeed(int speed)
 {
     int framerate = GameWindow::instance().getFramerate();
     m_speed = speed  > framerate ? framerate : speed;
-    m_turnMax = framerate / m_speed;
-}
-
-bool Monster::checkTurn()
-{
-    bool res = false;
-    if (++m_turnCount == m_turnMax) {
-        m_turnCount = 0;
-        res = true;
-    }
-    return res;
+    m_moveCounter = TurnCounter(framerate / m_speed);
 }
 
 void Monster::move()
 {
-    if (checkTurn()) {
+    if (m_moveCounter.update()) {
         m_position = Positioner::instance().nextRandGoal(m_position, m_goal);
     }
 }
@@ -84,7 +74,6 @@ bool Monster::collidesWith(const Monster& monster)
 
 void Monster::addCollider(Monster& monster)
 {
-    m_hasCollision = true;
     auto res = m_colliders.insert(&monster);
     if (res.second) {
         onBeginCollisionWith(monster);
@@ -103,7 +92,6 @@ int Monster::getSize() const
 
 void Monster::clear()
 {
-    m_hasCollision = false;
 }
 
 void Monster::setGold(int gold)
@@ -129,4 +117,9 @@ void Monster::onBeginCollisionWith(Monster& monster) {
 }
 
 void Monster::onEndCollisionWith(Monster& monster) {
+}
+
+void Monster::interact() {
+    m_hasCollision = m_colliders.empty() ? false : true;
+    m_health--;
 }

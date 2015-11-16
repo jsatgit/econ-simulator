@@ -40,7 +40,7 @@ void Game::start()
 void Game::tick()
 {
     for (auto& monster: m_monsters) {
-        monster.move(); 
+        monster.move();
     }
     for (int i = 0; i < m_monsters.size(); ++i) {
         for (int j = i+1; j < m_monsters.size(); ++j) {
@@ -53,15 +53,18 @@ void Game::tick()
             }
         }
     }
+    for (auto& monster: m_monsters) {
+        monster.interact();
+    }
 }
 
 void Game::render()
 {
     for (auto& hill: m_hills) {
-        hill.render(); 
+        hill.render();
     }
     for (auto& monster: m_monsters) {
-        monster.render(); 
+        monster.render();
         monster.clear();
     }
 }

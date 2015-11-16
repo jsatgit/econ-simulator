@@ -3,6 +3,7 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <unordered_set>
+#include "turnCounter.h"
 
 class Monster
 {
@@ -10,8 +11,7 @@ private:
     sf::Vector2f m_position;
     int m_size;
     int m_speed;
-    int m_turnMax;
-    int m_turnCount;
+    TurnCounter m_moveCounter;
     int m_gold;
     bool m_hasCollision;
     bool checkTurn();
@@ -19,6 +19,7 @@ private:
     std::unordered_set<Monster*> m_colliders;
     void onBeginCollisionWith(Monster& monster);
     void onEndCollisionWith(Monster& monster);
+    int m_health;
 
 public:
     Monster(int size);
@@ -35,6 +36,7 @@ public:
     void addCollider(Monster& monster);
     void removeCollider(Monster& monster);
     void giveGold(int gold);
+    void interact();
 };
 
 #endif /* MONSTER_H */
