@@ -13,11 +13,13 @@ private:
     std::vector<Monster> m_monsters;
     std::vector<Hill> m_hills;
 
+    void applyCollisionDetection();
+    void removeDeadMonsters();
+
 public:
     Game();
     void configure(const Config& config);
     void start();
-    void applyCollisionDetection();
     void tick();
     void render();
 };

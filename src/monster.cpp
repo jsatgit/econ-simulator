@@ -16,16 +16,25 @@ Monster::Monster(int size) :
     m_hasCollision(false),
     m_size(size),
     m_gold(0),
-    m_health(100),
+    m_health(3),
     m_goal(Positioner::instance().generateGoal())
 {
 }
 
-void Monster::onBeginCollisionWith(Monster& monster) {
+void Monster::onBeginCollisionWith(Monster& monster)
+{
     m_gold++;
 }
 
-void Monster::onEndCollisionWith(Monster& monster) {
+void Monster::onEndCollisionWith(Monster& monster)
+{
+}
+
+void Monster::loseHealth()
+{
+    if (m_health > 0) {
+        m_health--;
+    }
 }
 
 
@@ -51,6 +60,11 @@ void Monster::giveGold(int gold)
     m_gold += gold;
 }
 
+void Monster::setHealthRate(int rate)
+{
+    m_healthCounter = TurnCounter(rate);
+}
+
 const sf::Vector2f& Monster::getPosition() const
 {
     return m_position;
@@ -64,6 +78,11 @@ int Monster::getSize() const
 int Monster::askGold() const
 {
     return m_gold;
+}
+
+bool Monster::isAlive()
+{
+    return m_health > 0;
 }
 
 void Monster::move()
@@ -84,7 +103,7 @@ void Monster::render()
     circle.setPosition(m_position);
     GameWindow::instance().render(circle);
 
-    Text text = TextCreator::instance().createDialog(to_string(m_gold));
+    Text text = TextCreator::instance().createDialog(to_string(m_health));
     text.setPosition(m_position);
     text.setCharacterSize(m_size * 8);
     GameWindow::instance().render(text);
@@ -118,4 +137,7 @@ void Monster::removeCollider(Monster& monster)
 
 void Monster::tick() {
     m_hasCollision = m_colliders.empty() ? false : true;
+    if (m_healthCounter.update()) {
+        loseHealth();
+    }
 }

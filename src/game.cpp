@@ -1,6 +1,11 @@
 #include "game.h"
 #include "gameWindow.h"
 
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
 Game::Game()
 {
 }
@@ -17,12 +22,14 @@ void Game::configure(const Config& config)
         Monster monster(2);
         monster.setSpeed(15);
         monster.setPosition(sf::Vector2f(i*5, i*5));
+        monster.setHealthRate(60);
         m_monsters.push_back(monster);
     }
     Monster monster(2);
     monster.setSpeed(15);
     monster.setGold(2);
     monster.setPosition(sf::Vector2f(100,100));
+    monster.setHealthRate(60);
     m_monsters.push_back(monster);
     int numHills = 1;
     for (int i = 0; i < numHills; ++i) {
@@ -52,12 +59,23 @@ void Game::applyCollisionDetection()
     }
 }
 
+void Game::removeDeadMonsters()
+{
+    auto removeBegin = remove_if(m_monsters.begin(), m_monsters.end(), [](Monster monster) {
+        return !monster.isAlive();
+    });
+    if (removeBegin != m_monsters.end()) {
+        m_monsters.erase(removeBegin, m_monsters.end());
+    }
+}
+
 void Game::tick()
 {
     for (auto& monster: m_monsters) {
         monster.move();
     }
     applyCollisionDetection();
+    removeDeadMonsters();
     for (auto& monster: m_monsters) {
         monster.tick();
     }

@@ -9,7 +9,9 @@ class Monster
 {
 private:
     TurnCounter m_moveCounter;
+    TurnCounter m_healthCounter;
     sf::Vector2f m_position;
+    int m_healthRate;
     int m_health;
     int m_size;
     int m_speed;
@@ -22,6 +24,8 @@ private:
     void onBeginCollisionWith(Monster& monster);
     void onEndCollisionWith(Monster& monster);
 
+    void loseHealth();
+
 public:
     Monster(int size);
 
@@ -29,10 +33,12 @@ public:
     void setSpeed(int speed);
     void setGold(int gold);
     void giveGold(int gold);
+    void setHealthRate(int rate);
 
     const sf::Vector2f& getPosition() const;
     int getSize() const;
     int askGold() const;
+    bool isAlive();
 
     void move();
     void render();
