@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 
 #include <string>
@@ -34,6 +35,7 @@ public:
     int getHeight();
     void render(sf::CircleShape& shape);
     void render(sf::Text& text);
+    void render(sf::RectangleShape& rect);
     sf::RenderWindow* getWindow();
 };
 

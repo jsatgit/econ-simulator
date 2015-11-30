@@ -1,4 +1,5 @@
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 #include "monster.h"
 #include "gameWindow.h"
@@ -16,7 +17,7 @@ Monster::Monster(int size) :
     m_hasCollision(false),
     m_size(size),
     m_gold(0),
-    m_health(3),
+    m_health(100),
     m_goal(Positioner::instance().generateGoal())
 {
 }

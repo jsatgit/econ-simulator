@@ -59,19 +59,31 @@ int GameWindow::getHeight()
     return m_height;
 }
 
-void GameWindow::render(CircleShape& shape)
+void GameWindow::render(CircleShape& circle)
 {
-    const Vector2f& position = shape.getPosition();
-    int radius = shape.getRadius();
-    shape.setPosition((position + Vector2f(radius, radius)) * (float)m_scale);
-    shape.setRadius(radius * m_scale);
-    m_window->draw(shape);
+    float radius = circle.getRadius();
+    const Vector2f& position = circle.getPosition();
+    circle.setScale(m_scale, m_scale);
+    circle.setOrigin(radius, radius);
+    circle.setPosition(circle.getPosition() * (float)m_scale);
+    m_window->draw(circle);
+}
+
+void GameWindow::render(RectangleShape& rect)
+{
+    const Vector2f& position = rect.getPosition();
+    auto bounds = rect.getLocalBounds();
+    rect.setScale(m_scale, m_scale);
+    rect.setOrigin(bounds.width/2, bounds.height/2);
+    rect.setPosition(position * (float)m_scale);
+    m_window->draw(rect);
 }
 
 void GameWindow::render(Text& text)
 {
-    text.setOrigin(-3 * m_scale, -3 * m_scale);
     const Vector2f& position = text.getPosition();
+    auto bounds = text.getLocalBounds();
+    text.setOrigin(bounds.width/2, bounds.height/2);
     text.setPosition(position * (float)m_scale);
     m_window->draw(text);
 }

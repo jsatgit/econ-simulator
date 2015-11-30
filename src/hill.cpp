@@ -27,10 +27,9 @@ void Hill::render()
     for (int i = 0; i < m_height; ++i) {
         double currentIncrement = radiusIncrement*i;
         double radius = m_radius - currentIncrement; 
-        Vector2f position = Vector2f(m_position.x + currentIncrement, m_position.y + currentIncrement);
         CircleShape circle(radius);
         circle.setFillColor(Color(255, 0, 0, alpha));
-        circle.setPosition(position);
+        circle.setPosition(m_position);
         GameWindow::instance().render(circle);
     }
 }

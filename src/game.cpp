@@ -21,7 +21,7 @@ void Game::configure(const Config& config)
     for (int i = 0; i < numMonsters; ++i) {
         Monster monster(2);
         monster.setSpeed(15);
-        monster.setPosition(sf::Vector2f(i*5, i*5));
+        monster.setPosition(sf::Vector2f(i*8, i*8));
         monster.setHealthRate(60);
         m_monsters.push_back(monster);
     }
@@ -31,10 +31,10 @@ void Game::configure(const Config& config)
     monster.setPosition(sf::Vector2f(100,100));
     monster.setHealthRate(60);
     m_monsters.push_back(monster);
-    int numHills = 1;
+    int numHills = 5;
     for (int i = 0; i < numHills; ++i) {
-        Hill hill(60, 60);
-        hill.setPosition(sf::Vector2f(50, 50));
+        Hill hill(30, 30);
+        hill.setPosition(sf::Vector2f(i*30, i*30));
         m_hills.push_back(hill);
     }
 }
