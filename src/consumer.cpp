@@ -14,7 +14,7 @@
 using namespace sf;
 using namespace std;
 
-Consumer::Consumer(int size) :
+Consumer::Consumer(float size) :
     Particle(size, 0),
     m_hasCollision(false),
     m_gold(0),
@@ -107,9 +107,9 @@ bool Consumer::collidesWith(const Particle& particle)
 {
     const Vector2f& otherPosition = particle.getPosition();
     Vector2f diff = otherPosition - m_position;
-    int combinedRadius = m_size + particle.getSize();
-    int combinedRadiusSquared = combinedRadius * combinedRadius;
-    int squaredDistance = diff.x * diff.x + diff.y * diff.y;
+    float combinedRadius = m_size + particle.getSize();
+    float combinedRadiusSquared = combinedRadius * combinedRadius;
+    float squaredDistance = diff.x * diff.x + diff.y * diff.y;
     return squaredDistance <= combinedRadiusSquared;
 }
 

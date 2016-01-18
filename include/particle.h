@@ -1,5 +1,5 @@
 #ifndef PARTICLE_H
-#define PARTICLE_H 
+#define PARTICLE_H
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
@@ -12,7 +12,7 @@ class Particle
 {
 private:
 public:
-    Particle(int size, int value);
+    Particle(float size, float value);
     virtual ~Particle();
 
     void setPosition(const sf::Vector2f& position);
@@ -31,8 +31,10 @@ public:
 protected:
     std::unordered_set<Particle*> m_colliders;
     sf::Vector2f m_position;
-    int m_value;
-    int m_size;
+    float m_size;
+    float m_original_size;
+    float m_value;
+    float m_original_value;
 
     virtual void onBeginCollisionWith(Particle& particle);
     virtual void onEndCollisionWith(Particle& particle);

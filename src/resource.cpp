@@ -5,7 +5,7 @@
 using namespace sf;
 using namespace std;
 
-Resource::Resource(int size) :
+Resource::Resource(float size) :
     Particle(size, 10)
 {
 }
@@ -17,7 +17,7 @@ void Resource::render()
     circle.setFillColor(Color::Green);
     GameWindow::instance().render(circle);
 
-    Text text = TextCreator::instance().createDialog(to_string(m_value));
+    Text text = TextCreator::instance().createDialog(to_string((int)m_value));
     text.setPosition(m_position);
     text.setCharacterSize(m_size * 8);
     GameWindow::instance().render(text);
@@ -35,9 +35,9 @@ bool Resource::collidesWith(const Particle& particle)
 {
     const Vector2f& otherPosition = particle.getPosition();
     Vector2f diff = otherPosition - m_position;
-    int combinedRadius = m_size + particle.getSize();
-    int combinedRadiusSquared = combinedRadius * combinedRadius;
-    int squaredDistance = diff.x * diff.x + diff.y * diff.y;
+    float combinedRadius = m_size + particle.getSize();
+    float combinedRadiusSquared = combinedRadius * combinedRadius;
+    float squaredDistance = diff.x * diff.x + diff.y * diff.y;
     return squaredDistance <= combinedRadiusSquared;
 }
 
@@ -54,4 +54,8 @@ bool Resource::exists() const
 void Resource::consume(int amount)
 {
     m_value -= amount;
+    float new_size = m_original_size * (m_value / m_original_value);
+    if (new_size > 2) {
+        m_size = new_size;
+    }
 }

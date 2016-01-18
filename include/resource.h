@@ -12,7 +12,7 @@ class Resource : public Particle
 {
 private:
 public:
-    Resource(int size);
+    Resource(float size);
     void render() override;
     void onBeginCollisionWith(Particle& particle) override;
     void onEndCollisionWith(Particle& particle) override;

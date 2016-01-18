@@ -5,9 +5,11 @@
 using namespace sf;
 using namespace std;
 
-Particle::Particle(int size, int value) :
+Particle::Particle(float size, float value) :
     m_size(size),
-    m_value(value)
+    m_original_size(size),
+    m_value(value),
+    m_original_value(value)
 {
 }
 

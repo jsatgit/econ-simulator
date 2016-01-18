@@ -24,7 +24,7 @@ private:
     void loseHealth();
 
 public:
-    Consumer(int size);
+    Consumer(float size);
     ~Consumer();
 
     void setSpeed(int speed);
