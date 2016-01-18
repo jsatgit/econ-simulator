@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <memory>
 
 using namespace std;
 
@@ -21,17 +22,17 @@ void Game::configure(const Config& config)
     // create monsters
     int numMonsters = 10;
     for (int i = 0; i < numMonsters; ++i) {
-        Monster* monster = new Monster(2);
+        unique_ptr<Monster> monster(new Monster(2));
         monster->setSpeed(15);
         monster->setPosition(sf::Vector2f(i*8, i*8));
         monster->setHealthRate(60);
-        m_particles.push_back(monster);
+        m_particles.push_back(move(monster));
     }
 
     // create resources
-    Resource* resource = new Resource(7);
+    unique_ptr<Resource> resource(new Resource(7));
     resource->setPosition(sf::Vector2f(50, 50));
-    m_particles.push_back(resource);
+    m_particles.push_back(move(resource));
 
     // create hills
     int numHills = 5;
@@ -64,20 +65,22 @@ void Game::applyCollisionDetection()
 
 void Game::removeDeadParticles()
 {
-    auto removeBegin = remove_if(m_particles.begin(), m_particles.end(), [](Particle* particle) {
-        return !particle->isAlive();
-    });
+    auto removeBegin = remove_if(m_particles.begin(), m_particles.end(),
+        [](const unique_ptr<Particle>& particle) {
+            return !particle->isAlive();
+        }
+    );
     m_particles.erase(removeBegin, m_particles.end());
 }
 
 void Game::tick()
 {
-    for (Particle* particle: m_particles) {
+    for (auto& particle: m_particles) {
         particle->move();
     }
     applyCollisionDetection();
     removeDeadParticles();
-    for (Particle* particle: m_particles) {
+    for (auto& particle: m_particles) {
         particle->tick();
     }
 }
@@ -87,7 +90,7 @@ void Game::render()
     for (auto& hill: m_hills) {
         hill.render();
     }
-    for (Particle* particle: m_particles) {
+    for (auto& particle: m_particles) {
         particle->render();
     }
 }

@@ -13,7 +13,7 @@ class Game
 {
 private:
     std::vector<Hill> m_hills;
-    std::vector<Particle*> m_particles;
+    std::vector<std::unique_ptr<Particle>> m_particles;
 
     void applyCollisionDetection();
     void removeDeadParticles();
