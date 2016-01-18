@@ -5,8 +5,8 @@
 using namespace sf;
 using namespace std;
 
-Resource::Resource(float size) :
-    Particle(size, 10)
+Resource::Resource(float size, float value) :
+    Particle(size, value)
 {
 }
 

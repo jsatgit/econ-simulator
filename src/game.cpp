@@ -30,7 +30,7 @@ void Game::configure(const Config& config)
     }
 
     // create resources
-    unique_ptr<Resource> resource(new Resource(7));
+    unique_ptr<Resource> resource(new Resource(7, 100));
     resource->setPosition(sf::Vector2f(50, 50));
     m_particles.push_back(move(resource));
 

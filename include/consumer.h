@@ -12,8 +12,10 @@ private:
     TurnCounter m_healthCounter;
     int m_healthRate;
     int m_health;
+    int m_original_health;
     int m_speed;
     int m_gold;
+    int m_food;
 
     bool m_hasCollision;
     sf::Vector2f m_goal;
@@ -22,6 +24,8 @@ private:
     void onEndCollisionWith(Particle& particle) override;
 
     void loseHealth();
+    void eat(int amount);
+    bool isHealthy();
 
 public:
     Consumer(float size);

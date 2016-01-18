@@ -16,9 +16,11 @@ using namespace std;
 
 Consumer::Consumer(float size) :
     Particle(size, 0),
-    m_hasCollision(false),
-    m_gold(0),
     m_health(15),
+    m_original_health(15),
+    m_gold(100),
+    m_food(0),
+    m_hasCollision(false),
     m_goal(Positioner::instance().generateGoal())
 {
 }
@@ -32,7 +34,7 @@ void Consumer::onBeginCollisionWith(Particle& particle)
     if (particle.isResource()) {
         Resource& resource = dynamic_cast<Resource&>(particle);
         resource.consume(1);
-        m_health += 5;
+        m_food += 1;
     }
 }
 
@@ -92,12 +94,12 @@ void Consumer::render()
     if (m_hasCollision) {
         circle.setFillColor(Color::Red);
     } else {
-        circle.setFillColor(Color::Blue);
+        circle.setFillColor(Color(0, 0, 255 * ((float)m_health / m_original_health)));
     }
     circle.setPosition(m_position);
     GameWindow::instance().render(circle);
 
-    Text text = TextCreator::instance().createDialog(to_string(m_health));
+    Text text = TextCreator::instance().createDialog(to_string(m_food));
     text.setPosition(m_position);
     text.setCharacterSize(m_size * 8);
     GameWindow::instance().render(text);
@@ -113,10 +115,24 @@ bool Consumer::collidesWith(const Particle& particle)
     return squaredDistance <= combinedRadiusSquared;
 }
 
+void Consumer::eat(int amount)
+{
+    m_food -= amount;
+    m_health += amount * 5;
+}
+
+bool Consumer::isHealthy()
+{
+    return (float)m_health / m_original_health > 0.3;
+}
+
 void Consumer::tick() 
 {
     m_hasCollision = m_colliders.empty() ? false : true;
     if (m_healthCounter.update()) {
         loseHealth();
+        if (!isHealthy() && m_food > 0) {
+            eat(1);
+        }
     }
 }
