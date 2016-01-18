@@ -7,16 +7,16 @@
 #include "monster.h"
 #include "hill.h"
 #include "resource.h"
+#include "particle.h"
 
 class Game
 {
 private:
-    std::vector<Monster> m_monsters;
     std::vector<Hill> m_hills;
-    std::vector<Resource> m_resources;
+    std::vector<Particle*> m_particles;
 
     void applyCollisionDetection();
-    void removeDeadMonsters();
+    void removeDeadParticles();
 
 public:
     Game();

@@ -14,20 +14,20 @@ using namespace sf;
 using namespace std;
 
 Monster::Monster(int size) :
+    Particle(size, 0),
     m_hasCollision(false),
-    m_size(size),
     m_gold(0),
     m_health(100),
     m_goal(Positioner::instance().generateGoal())
 {
 }
 
-void Monster::onBeginCollisionWith(Monster& monster)
+void Monster::onBeginCollisionWith(Particle& particle)
 {
     m_gold++;
 }
 
-void Monster::onEndCollisionWith(Monster& monster)
+void Monster::onEndCollisionWith(Particle& particle)
 {
 }
 
@@ -36,12 +36,6 @@ void Monster::loseHealth()
     if (m_health > 0) {
         m_health--;
     }
-}
-
-
-void Monster::setPosition(const Vector2f& position)
-{
-    m_position = position;
 }
 
 void Monster::setSpeed(int speed)
@@ -66,22 +60,12 @@ void Monster::setHealthRate(int rate)
     m_healthCounter = TurnCounter(rate);
 }
 
-const sf::Vector2f& Monster::getPosition() const
-{
-    return m_position;
-}
-
-int Monster::getSize() const
-{
-    return m_size;
-}
-
 int Monster::askGold() const
 {
     return m_gold;
 }
 
-bool Monster::isAlive()
+bool Monster::isAlive() const
 {
     return m_health > 0;
 }
@@ -110,30 +94,14 @@ void Monster::render()
     GameWindow::instance().render(text);
 }
 
-bool Monster::collidesWith(const Monster& monster)
+bool Monster::collidesWith(const Particle& particle)
 {
-    const Vector2f& otherPosition = monster.getPosition();
+    const Vector2f& otherPosition = particle.getPosition();
     Vector2f diff = otherPosition - m_position;
-    int combinedRadius = m_size + monster.getSize();
+    int combinedRadius = m_size + particle.getSize();
     int combinedRadiusSquared = combinedRadius * combinedRadius;
     int squaredDistance = diff.x * diff.x + diff.y * diff.y;
     return squaredDistance <= combinedRadiusSquared;
-}
-
-void Monster::addCollider(Monster& monster)
-{
-    auto res = m_colliders.insert(&monster);
-    if (res.second) {
-        onBeginCollisionWith(monster);
-    }
-}
-
-void Monster::removeCollider(Monster& monster)
-{
-    auto erased = m_colliders.erase(&monster);
-    if (erased) {
-        onEndCollisionWith(monster);
-    }
 }
 
 void Monster::tick() {

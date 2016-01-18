@@ -6,14 +6,8 @@ using namespace sf;
 using namespace std;
 
 Resource::Resource() :
-    m_value(100),
-    m_size(2)
+    Particle(2, 100)
 {
-}
-
-void Resource::setPosition(const Vector2f& position)
-{
-    m_position = position;
 }
 
 void Resource::render()
@@ -27,4 +21,22 @@ void Resource::render()
     text.setPosition(m_position);
     text.setCharacterSize(m_size * 8);
     GameWindow::instance().render(text);
+}
+
+void Resource::onBeginCollisionWith(Particle& particle)
+{
+}
+
+void Resource::onEndCollisionWith(Particle& particle)
+{
+}
+
+bool Resource::collidesWith(const Particle& particle)
+{
+    const Vector2f& otherPosition = particle.getPosition();
+    Vector2f diff = otherPosition - m_position;
+    int combinedRadius = m_size + particle.getSize();
+    int combinedRadiusSquared = combinedRadius * combinedRadius;
+    int squaredDistance = diff.x * diff.x + diff.y * diff.y;
+    return squaredDistance <= combinedRadiusSquared;
 }
