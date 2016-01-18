@@ -13,6 +13,7 @@ class Particle
 private:
 public:
     Particle(int size, int value);
+    virtual ~Particle();
 
     void setPosition(const sf::Vector2f& position);
 
@@ -26,6 +27,7 @@ public:
     virtual void render() = 0;
     virtual bool isAlive() const;
     virtual void move();
+    virtual bool isResource() const;
 protected:
     std::unordered_set<Particle*> m_colliders;
     sf::Vector2f m_position;

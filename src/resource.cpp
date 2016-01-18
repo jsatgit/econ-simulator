@@ -5,8 +5,8 @@
 using namespace sf;
 using namespace std;
 
-Resource::Resource() :
-    Particle(2, 100)
+Resource::Resource(int size) :
+    Particle(size, 100)
 {
 }
 
@@ -39,4 +39,14 @@ bool Resource::collidesWith(const Particle& particle)
     int combinedRadiusSquared = combinedRadius * combinedRadius;
     int squaredDistance = diff.x * diff.x + diff.y * diff.y;
     return squaredDistance <= combinedRadiusSquared;
+}
+
+bool Resource::isResource() const
+{
+    return true;
+}
+
+void Resource::consume(int amount)
+{
+    m_value -= amount;
 }

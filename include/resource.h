@@ -12,11 +12,13 @@ class Resource : public Particle
 {
 private:
 public:
-    Resource();
+    Resource(int size);
     void render() override;
     void onBeginCollisionWith(Particle& particle) override;
     void onEndCollisionWith(Particle& particle) override;
     bool collidesWith(const Particle& particle) override;
+    bool isResource() const override;
+    void consume(int amount);
 };
 
 #endif /* RESOURCE_H */

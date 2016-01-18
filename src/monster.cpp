@@ -5,6 +5,7 @@
 #include "gameWindow.h"
 #include "positioner.h"
 #include "textCreator.h"
+#include "resource.h"
 #include <cmath>
 
 #include <iostream>
@@ -17,14 +18,22 @@ Monster::Monster(int size) :
     Particle(size, 0),
     m_hasCollision(false),
     m_gold(0),
-    m_health(100),
+    m_health(5),
     m_goal(Positioner::instance().generateGoal())
+{
+}
+
+Monster::~Monster()
 {
 }
 
 void Monster::onBeginCollisionWith(Particle& particle)
 {
-    m_gold++;
+    if (particle.isResource()) {
+        Resource& resource = dynamic_cast<Resource&>(particle);
+        resource.consume(1);
+        m_health += 5;
+    }
 }
 
 void Monster::onEndCollisionWith(Particle& particle)
@@ -104,7 +113,8 @@ bool Monster::collidesWith(const Particle& particle)
     return squaredDistance <= combinedRadiusSquared;
 }
 
-void Monster::tick() {
+void Monster::tick() 
+{
     m_hasCollision = m_colliders.empty() ? false : true;
     if (m_healthCounter.update()) {
         loseHealth();

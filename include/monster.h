@@ -25,6 +25,7 @@ private:
 
 public:
     Monster(int size);
+    ~Monster();
 
     void setSpeed(int speed);
     void setGold(int gold);

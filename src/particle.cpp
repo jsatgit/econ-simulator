@@ -62,3 +62,12 @@ void Particle::tick()
 void Particle::move()
 {
 }
+
+bool Particle::isResource() const
+{
+    return false;
+}
+
+Particle::~Particle()
+{
+}

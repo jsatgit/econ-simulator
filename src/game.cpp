@@ -29,7 +29,7 @@ void Game::configure(const Config& config)
     }
 
     // create resources
-    Resource* resource = new Resource();
+    Resource* resource = new Resource(7);
     resource->setPosition(sf::Vector2f(50, 50));
     m_particles.push_back(resource);
 
@@ -67,9 +67,7 @@ void Game::removeDeadParticles()
     auto removeBegin = remove_if(m_particles.begin(), m_particles.end(), [](Particle* particle) {
         return !particle->isAlive();
     });
-    if (removeBegin != m_particles.end()) {
-        m_particles.erase(removeBegin, m_particles.end());
-    }
+    m_particles.erase(removeBegin, m_particles.end());
 }
 
 void Game::tick()
