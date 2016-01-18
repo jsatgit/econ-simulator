@@ -37,6 +37,9 @@ void Game::configure(const Config& config)
         hill.setPosition(sf::Vector2f(i*30, i*30));
         m_hills.push_back(hill);
     }
+    Resource resource;
+    resource.setPosition(sf::Vector2f(50, 50));
+    m_resources.push_back(resource);
 }
 
 void Game::start()
@@ -88,5 +91,8 @@ void Game::render()
     }
     for (auto& monster: m_monsters) {
         monster.render();
+    }
+    for (auto& resource: m_resources) {
+        resource.render();
     }
 }

@@ -6,12 +6,14 @@
 #include "config.h"
 #include "monster.h"
 #include "hill.h"
+#include "resource.h"
 
 class Game
 {
 private:
     std::vector<Monster> m_monsters;
     std::vector<Hill> m_hills;
+    std::vector<Resource> m_resources;
 
     void applyCollisionDetection();
     void removeDeadMonsters();
