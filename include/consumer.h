@@ -1,11 +1,11 @@
-#ifndef MONSTER_H
-#define MONSTER_H
+#ifndef CONSUMER_H
+#define CONSUMER_H
 
 #include <SFML/System/Vector2.hpp>
 #include "turnCounter.h"
 #include "particle.h"
 
-class Monster : public Particle
+class Consumer : public Particle
 {
 private:
     TurnCounter m_moveCounter;
@@ -24,8 +24,8 @@ private:
     void loseHealth();
 
 public:
-    Monster(int size);
-    ~Monster();
+    Consumer(int size);
+    ~Consumer();
 
     void setSpeed(int speed);
     void setGold(int gold);
@@ -33,14 +33,14 @@ public:
     void setHealthRate(int rate);
 
     int askGold() const;
-    bool isAlive() const override;
+    bool exists() const override;
 
     void move() override;
     void render() override;
     bool collidesWith(const Particle& particle) override;
-    void addCollider(Monster& monster);
-    void removeCollider(Monster& monster);
+    void addCollider(Consumer& monster);
+    void removeCollider(Consumer& monster);
     void tick() override;
 };
 
-#endif /* MONSTER_H */
+#endif /* CONSUMER_H */

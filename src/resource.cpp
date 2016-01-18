@@ -6,7 +6,7 @@ using namespace sf;
 using namespace std;
 
 Resource::Resource(int size) :
-    Particle(size, 100)
+    Particle(size, 10)
 {
 }
 
@@ -44,6 +44,11 @@ bool Resource::collidesWith(const Particle& particle)
 bool Resource::isResource() const
 {
     return true;
+}
+
+bool Resource::exists() const
+{
+    return m_value > 0;
 }
 
 void Resource::consume(int amount)

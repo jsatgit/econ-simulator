@@ -25,7 +25,7 @@ public:
     virtual bool collidesWith(const Particle& particle) = 0;
     virtual void tick();
     virtual void render() = 0;
-    virtual bool isAlive() const;
+    virtual bool exists() const;
     virtual void move();
     virtual bool isResource() const;
 protected:

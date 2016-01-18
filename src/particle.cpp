@@ -50,7 +50,7 @@ void Particle::onEndCollisionWith(Particle& particle)
 {
 }
 
-bool Particle::isAlive() const
+bool Particle::exists() const
 {
     return true;
 }

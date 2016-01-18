@@ -18,6 +18,7 @@ public:
     void onEndCollisionWith(Particle& particle) override;
     bool collidesWith(const Particle& particle) override;
     bool isResource() const override;
+    bool exists() const override;
     void consume(int amount);
 };
 

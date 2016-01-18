@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "config.h"
-#include "monster.h"
+#include "consumer.h"
 #include "hill.h"
 #include "resource.h"
 #include "particle.h"

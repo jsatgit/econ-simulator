@@ -1,7 +1,7 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
-#include "monster.h"
+#include "consumer.h"
 #include "gameWindow.h"
 #include "positioner.h"
 #include "textCreator.h"
@@ -14,20 +14,20 @@
 using namespace sf;
 using namespace std;
 
-Monster::Monster(int size) :
+Consumer::Consumer(int size) :
     Particle(size, 0),
     m_hasCollision(false),
     m_gold(0),
-    m_health(5),
+    m_health(15),
     m_goal(Positioner::instance().generateGoal())
 {
 }
 
-Monster::~Monster()
+Consumer::~Consumer()
 {
 }
 
-void Monster::onBeginCollisionWith(Particle& particle)
+void Consumer::onBeginCollisionWith(Particle& particle)
 {
     if (particle.isResource()) {
         Resource& resource = dynamic_cast<Resource&>(particle);
@@ -36,57 +36,57 @@ void Monster::onBeginCollisionWith(Particle& particle)
     }
 }
 
-void Monster::onEndCollisionWith(Particle& particle)
+void Consumer::onEndCollisionWith(Particle& particle)
 {
 }
 
-void Monster::loseHealth()
+void Consumer::loseHealth()
 {
     if (m_health > 0) {
         m_health--;
     }
 }
 
-void Monster::setSpeed(int speed)
+void Consumer::setSpeed(int speed)
 {
     int framerate = GameWindow::instance().getFramerate();
     m_speed = speed  > framerate ? framerate : speed;
     m_moveCounter = TurnCounter(framerate / m_speed);
 }
 
-void Monster::setGold(int gold)
+void Consumer::setGold(int gold)
 {
     m_gold = gold;
 }
 
-void Monster::giveGold(int gold)
+void Consumer::giveGold(int gold)
 {
     m_gold += gold;
 }
 
-void Monster::setHealthRate(int rate)
+void Consumer::setHealthRate(int rate)
 {
     m_healthCounter = TurnCounter(rate);
 }
 
-int Monster::askGold() const
+int Consumer::askGold() const
 {
     return m_gold;
 }
 
-bool Monster::isAlive() const
+bool Consumer::exists() const
 {
     return m_health > 0;
 }
 
-void Monster::move()
+void Consumer::move()
 {
     if (m_moveCounter.update()) {
         m_position = Positioner::instance().nextRandGoal(m_position, m_goal);
     }
 }
 
-void Monster::render()
+void Consumer::render()
 {
     CircleShape circle(m_size);
     if (m_hasCollision) {
@@ -103,7 +103,7 @@ void Monster::render()
     GameWindow::instance().render(text);
 }
 
-bool Monster::collidesWith(const Particle& particle)
+bool Consumer::collidesWith(const Particle& particle)
 {
     const Vector2f& otherPosition = particle.getPosition();
     Vector2f diff = otherPosition - m_position;
@@ -113,7 +113,7 @@ bool Monster::collidesWith(const Particle& particle)
     return squaredDistance <= combinedRadiusSquared;
 }
 
-void Monster::tick() 
+void Consumer::tick() 
 {
     m_hasCollision = m_colliders.empty() ? false : true;
     if (m_healthCounter.update()) {

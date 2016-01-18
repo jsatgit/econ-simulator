@@ -19,14 +19,14 @@ void Game::configure(const Config& config)
     gameWindow.setScale(config.windowScale);
     gameWindow.setFramerate(config.framerate);
 
-    // create monsters
-    int numMonsters = 10;
-    for (int i = 0; i < numMonsters; ++i) {
-        unique_ptr<Monster> monster(new Monster(2));
-        monster->setSpeed(15);
-        monster->setPosition(sf::Vector2f(i*8, i*8));
-        monster->setHealthRate(60);
-        m_particles.push_back(move(monster));
+    // create consumers
+    int numConsumers = 100;
+    for (int i = 0; i < numConsumers; ++i) {
+        unique_ptr<Consumer> consumer(new Consumer(2));
+        consumer->setSpeed(15);
+        consumer->setPosition(sf::Vector2f(i*8, i*8));
+        consumer->setHealthRate(60);
+        m_particles.push_back(move(consumer));
     }
 
     // create resources
@@ -67,7 +67,7 @@ void Game::removeDeadParticles()
 {
     auto removeBegin = remove_if(m_particles.begin(), m_particles.end(),
         [](const unique_ptr<Particle>& particle) {
-            return !particle->isAlive();
+            return !particle->exists();
         }
     );
     m_particles.erase(removeBegin, m_particles.end());
