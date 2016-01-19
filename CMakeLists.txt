@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.9)
 
-project(particle-simulator)
+project(econ-simulator)
 
-set(EXECUTABLE_NAME "particle-simulator")
+set(EXECUTABLE_NAME "econ-simulator")
 
 SET(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
 
