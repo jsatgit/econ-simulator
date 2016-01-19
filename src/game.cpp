@@ -31,7 +31,7 @@ void Game::configure(const Config& config)
     shared_ptr<Consumer> consumer(new Consumer(2, 30, 30));
     consumer->setPosition(sf::Vector2f(20, 20));
     consumer->setHealthRate(60);
-    consumer->setGold(300);
+    consumer->setGold(100);
     m_particles.push_back(move(consumer));
 
     // create resources

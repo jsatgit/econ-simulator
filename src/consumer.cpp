@@ -18,7 +18,7 @@ Consumer::Consumer(float size, int health, int speed) :
     Particle(size, 0),
     m_health(health),
     m_original_health(health),
-    m_gold(100),
+    m_gold(10),
     m_food(10),
     m_previousTrader(nullptr),
     m_hasCollision(false),
