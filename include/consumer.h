@@ -14,6 +14,7 @@ private:
     int m_health;
     int m_original_health;
     int m_speed;
+    int m_original_speed;
     int m_gold;
     int m_food;
 
@@ -28,10 +29,10 @@ private:
     bool isHealthy();
 
 public:
-    Consumer(float size);
+    Consumer(float size, int health, int speed);
     ~Consumer();
 
-    void setSpeed(int speed);
+    int setSpeed(int speed);
     void setGold(int gold);
     void giveGold(int gold);
     void setHealthRate(int rate);

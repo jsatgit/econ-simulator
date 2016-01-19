@@ -14,15 +14,16 @@
 using namespace sf;
 using namespace std;
 
-Consumer::Consumer(float size) :
+Consumer::Consumer(float size, int health, int speed) :
     Particle(size, 0),
-    m_health(15),
-    m_original_health(15),
+    m_health(health),
+    m_original_health(health),
     m_gold(100),
     m_food(0),
     m_hasCollision(false),
     m_goal(Positioner::instance().generateGoal())
 {
+    m_original_speed = setSpeed(speed);
 }
 
 Consumer::~Consumer()
@@ -49,11 +50,13 @@ void Consumer::loseHealth()
     }
 }
 
-void Consumer::setSpeed(int speed)
+int Consumer::setSpeed(int speed)
 {
     int framerate = GameWindow::instance().getFramerate();
-    m_speed = speed  > framerate ? framerate : speed;
+    m_speed = speed > framerate ? framerate : speed;
+    m_speed = speed < 10 ? 10 : speed; 
     m_moveCounter = TurnCounter(framerate / m_speed);
+    return m_speed;
 }
 
 void Consumer::setGold(int gold)
@@ -133,6 +136,9 @@ void Consumer::tick()
         loseHealth();
         if (!isHealthy() && m_food > 0) {
             eat(1);
+        }
+        if (m_health < m_original_health) {
+            setSpeed(m_speed * (float)m_health / m_original_health);
         }
     }
 }

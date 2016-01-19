@@ -22,12 +22,16 @@ void Game::configure(const Config& config)
     // create consumers
     int numConsumers = 100;
     for (int i = 0; i < numConsumers; ++i) {
-        unique_ptr<Consumer> consumer(new Consumer(2));
-        consumer->setSpeed(15);
+        unique_ptr<Consumer> consumer(new Consumer(2, 30, 30));
         consumer->setPosition(sf::Vector2f(i*8, i*8));
         consumer->setHealthRate(60);
         m_particles.push_back(move(consumer));
     }
+
+    unique_ptr<Consumer> consumer(new Consumer(2, 500, 60));
+    consumer->setPosition(sf::Vector2f(20, 20));
+    consumer->setHealthRate(60);
+    m_particles.push_back(move(consumer));
 
     // create resources
     unique_ptr<Resource> resource(new Resource(7, 100));
