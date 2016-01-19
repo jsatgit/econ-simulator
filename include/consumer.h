@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include "turnCounter.h"
 #include "particle.h"
+#include "item.h"
 
 class Consumer : public Particle
 {
@@ -17,6 +18,7 @@ private:
     int m_original_speed;
     int m_gold;
     int m_food;
+    Consumer* m_previousTrader;
 
     bool m_hasCollision;
     sf::Vector2f m_goal;
@@ -27,14 +29,13 @@ private:
     void loseHealth();
     void eat(int amount);
     bool isHealthy();
+    void tradeWith(Consumer& consumer);
 
 public:
     Consumer(float size, int health, int speed);
     ~Consumer();
 
     int setSpeed(int speed);
-    void setGold(int gold);
-    void giveGold(int gold);
     void setHealthRate(int rate);
 
     int askGold() const;
@@ -46,6 +47,11 @@ public:
     void addCollider(Consumer& monster);
     void removeCollider(Consumer& monster);
     void tick() override;
+    bool isWillingToSell(Item item, int quantity, int price);
+    int withdraw(Item item, int quantity);
+    int deposit(Item item, int quantity);
+    void setGold(int quantity);
+    void setPreviousTrader(Consumer* consumer);
 };
 
 #endif /* CONSUMER_H */

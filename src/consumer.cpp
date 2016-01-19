@@ -19,7 +19,8 @@ Consumer::Consumer(float size, int health, int speed) :
     m_health(health),
     m_original_health(health),
     m_gold(100),
-    m_food(0),
+    m_food(10),
+    m_previousTrader(nullptr),
     m_hasCollision(false),
     m_goal(Positioner::instance().generateGoal())
 {
@@ -36,7 +37,75 @@ void Consumer::onBeginCollisionWith(Particle& particle)
         Resource& resource = dynamic_cast<Resource&>(particle);
         resource.consume(1);
         m_food += 1;
+    } else {
+        Consumer& consumer = dynamic_cast<Consumer&>(particle);
+        tradeWith(consumer);
     }
+}
+
+void Consumer::tradeWith(Consumer& consumer)
+{
+    if (&consumer != m_previousTrader && m_gold > 0 && m_health > 10) {
+        int price = 1;
+        int quantity = 1;
+        if (consumer.isWillingToSell(FOOD, quantity, price)) {
+            int actual = consumer.withdraw(FOOD, quantity);
+            if (actual == quantity) {
+                m_food += actual;
+                consumer.deposit(GOLD, price);
+                m_gold -= price;
+            }
+            consumer.setPreviousTrader(this);
+        }
+    }
+}
+
+void Consumer::setPreviousTrader(Consumer* consumer)
+{
+    m_previousTrader = consumer;
+}
+
+int Consumer::withdraw(Item item, int quantity)
+{
+    int actualWithdrawal = 0;
+    int* itemToWithdraw = nullptr;
+    switch(item) {
+        case FOOD:
+            itemToWithdraw = &m_food;
+            break;
+        case GOLD:
+            itemToWithdraw = &m_gold;
+            break;
+    }
+    int finalQuantity = *itemToWithdraw - quantity;
+    if (finalQuantity >=0) {
+        *itemToWithdraw -= quantity;
+        actualWithdrawal = quantity;
+    }
+    return actualWithdrawal;
+}
+
+int Consumer::deposit(Item item, int quantity)
+{
+    int* itemToDeposit = nullptr;
+    switch(item) {
+        case FOOD:
+            itemToDeposit = &m_food;
+            break;
+        case GOLD:
+            itemToDeposit = &m_gold;
+            break;
+    }
+    *itemToDeposit += quantity;
+    return quantity;
+}
+
+bool Consumer::isWillingToSell(Item item, int quantity, int price)
+{
+    if (item == FOOD && m_food > 0) {
+        return true;
+    }
+    return false;
 }
 
 void Consumer::onEndCollisionWith(Particle& particle)
@@ -54,19 +123,9 @@ int Consumer::setSpeed(int speed)
 {
     int framerate = GameWindow::instance().getFramerate();
     m_speed = speed > framerate ? framerate : speed;
-    m_speed = speed < 10 ? 10 : speed; 
+    m_speed = speed < 10 ? 10 : speed;
     m_moveCounter = TurnCounter(framerate / m_speed);
     return m_speed;
-}
-
-void Consumer::setGold(int gold)
-{
-    m_gold = gold;
-}
-
-void Consumer::giveGold(int gold)
-{
-    m_gold += gold;
 }
 
 void Consumer::setHealthRate(int rate)
@@ -102,7 +161,7 @@ void Consumer::render()
     circle.setPosition(m_position);
     GameWindow::instance().render(circle);
 
-    Text text = TextCreator::instance().createDialog(to_string(m_food));
+    Text text = TextCreator::instance().createDialog(to_string(m_gold));
     text.setPosition(m_position);
     text.setCharacterSize(m_size * 8);
     GameWindow::instance().render(text);
@@ -124,12 +183,17 @@ void Consumer::eat(int amount)
     m_health += amount * 5;
 }
 
+void Consumer::setGold(int quantity)
+{
+    m_gold += quantity;
+}
+
 bool Consumer::isHealthy()
 {
     return (float)m_health / m_original_health > 0.3;
 }
 
-void Consumer::tick() 
+void Consumer::tick()
 {
     m_hasCollision = m_colliders.empty() ? false : true;
     if (m_healthCounter.update()) {
