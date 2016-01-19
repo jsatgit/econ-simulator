@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <unordered_set>
+#include <memory>
 
 #include "textCreator.h"
 #include "gameWindow.h"
@@ -20,9 +21,9 @@ public:
     const sf::Vector2f& getPosition() const;
     int getSize() const;
 
-    void addCollider(Particle& Particle);
-    void removeCollider(Particle& Particle);
-    virtual bool collidesWith(const Particle& particle) = 0;
+    void addCollider(Particle* Particle);
+    void removeCollider(Particle* Particle);
+    virtual bool collidesWith(const Particle* particle) = 0;
     virtual void tick();
     virtual void render() = 0;
     virtual bool exists() const;
@@ -36,8 +37,8 @@ protected:
     float m_value;
     float m_original_value;
 
-    virtual void onBeginCollisionWith(Particle& particle);
-    virtual void onEndCollisionWith(Particle& particle);
+    virtual void onBeginCollisionWith(Particle* particle);
+    virtual void onEndCollisionWith(Particle* particle);
 };
 
 #endif /* PARTICLE_H */

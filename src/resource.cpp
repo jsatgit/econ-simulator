@@ -23,19 +23,19 @@ void Resource::render()
     GameWindow::instance().render(text);
 }
 
-void Resource::onBeginCollisionWith(Particle& particle)
+void Resource::onBeginCollisionWith(Particle* particle)
 {
 }
 
-void Resource::onEndCollisionWith(Particle& particle)
+void Resource::onEndCollisionWith(Particle* particle)
 {
 }
 
-bool Resource::collidesWith(const Particle& particle)
+bool Resource::collidesWith(const Particle* particle)
 {
-    const Vector2f& otherPosition = particle.getPosition();
+    const Vector2f& otherPosition = particle->getPosition();
     Vector2f diff = otherPosition - m_position;
-    float combinedRadius = m_size + particle.getSize();
+    float combinedRadius = m_size + particle->getSize();
     float combinedRadiusSquared = combinedRadius * combinedRadius;
     float squaredDistance = diff.x * diff.x + diff.y * diff.y;
     return squaredDistance <= combinedRadiusSquared;

@@ -14,9 +14,9 @@ private:
 public:
     Resource(float size, float value);
     void render() override;
-    void onBeginCollisionWith(Particle& particle) override;
-    void onEndCollisionWith(Particle& particle) override;
-    bool collidesWith(const Particle& particle) override;
+    void onBeginCollisionWith(Particle* particle) override;
+    void onEndCollisionWith(Particle* particle) override;
+    bool collidesWith(const Particle* particle) override;
     bool isResource() const override;
     bool exists() const override;
     void consume(int amount);

@@ -31,31 +31,35 @@ Consumer::~Consumer()
 {
 }
 
-void Consumer::onBeginCollisionWith(Particle& particle)
+void Consumer::onBeginCollisionWith(Particle* particle)
 {
-    if (particle.isResource()) {
-        Resource& resource = dynamic_cast<Resource&>(particle);
-        resource.consume(1);
+    if (particle->isResource()) {
+        Resource* resource = dynamic_cast<Resource*>(particle);
+        resource->consume(1);
         m_food += 1;
     } else {
-        Consumer& consumer = dynamic_cast<Consumer&>(particle);
+        Consumer* consumer = dynamic_cast<Consumer*>(particle);
         tradeWith(consumer);
     }
 }
 
-void Consumer::tradeWith(Consumer& consumer)
+void Consumer::onEndCollisionWith(Particle* particle)
 {
-    if (&consumer != m_previousTrader && m_gold > 0 && m_health > 10) {
+}
+
+void Consumer::tradeWith(Consumer* consumer)
+{
+    if (consumer != m_previousTrader && m_gold > 0 && m_health > 10) {
         int price = 1;
         int quantity = 1;
-        if (consumer.isWillingToSell(FOOD, quantity, price)) {
-            int actual = consumer.withdraw(FOOD, quantity);
+        if (consumer->isWillingToSell(FOOD, quantity, price)) {
+            int actual = consumer->withdraw(FOOD, quantity);
             if (actual == quantity) {
                 m_food += actual;
-                consumer.deposit(GOLD, price);
+                consumer->deposit(GOLD, price);
                 m_gold -= price;
             }
-            consumer.setPreviousTrader(this);
+            consumer->setPreviousTrader(this);
         }
     }
 }
@@ -106,10 +110,6 @@ bool Consumer::isWillingToSell(Item item, int quantity, int price)
         return true;
     }
     return false;
-}
-
-void Consumer::onEndCollisionWith(Particle& particle)
-{
 }
 
 void Consumer::loseHealth()
@@ -167,11 +167,11 @@ void Consumer::render()
     GameWindow::instance().render(text);
 }
 
-bool Consumer::collidesWith(const Particle& particle)
+bool Consumer::collidesWith(const Particle* particle)
 {
-    const Vector2f& otherPosition = particle.getPosition();
+    const Vector2f& otherPosition = particle->getPosition();
     Vector2f diff = otherPosition - m_position;
-    float combinedRadius = m_size + particle.getSize();
+    float combinedRadius = m_size + particle->getSize();
     float combinedRadiusSquared = combinedRadius * combinedRadius;
     float squaredDistance = diff.x * diff.x + diff.y * diff.y;
     return squaredDistance <= combinedRadiusSquared;

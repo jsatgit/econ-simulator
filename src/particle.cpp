@@ -28,27 +28,27 @@ int Particle::getSize() const
     return m_size;
 }
 
-void Particle::addCollider(Particle& particle)
+void Particle::addCollider(Particle* particle)
 {
-    auto res = m_colliders.insert(&particle);
+    auto res = m_colliders.insert(particle);
     if (res.second) {
         onBeginCollisionWith(particle);
     }
 }
 
-void Particle::removeCollider(Particle& particle)
+void Particle::removeCollider(Particle* particle)
 {
-    auto erased = m_colliders.erase(&particle);
+    auto erased = m_colliders.erase(particle);
     if (erased) {
         onEndCollisionWith(particle);
     }
 }
 
-void Particle::onBeginCollisionWith(Particle& particle)
+void Particle::onBeginCollisionWith(Particle* particle)
 {
 }
 
-void Particle::onEndCollisionWith(Particle& particle)
+void Particle::onEndCollisionWith(Particle* particle)
 {
 }
 
@@ -72,4 +72,7 @@ bool Particle::isResource() const
 
 Particle::~Particle()
 {
+    for (auto& particle : m_colliders) {
+        particle->removeCollider(this);
+    }
 }

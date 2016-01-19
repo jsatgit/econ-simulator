@@ -23,13 +23,13 @@ private:
     bool m_hasCollision;
     sf::Vector2f m_goal;
 
-    void onBeginCollisionWith(Particle& particle) override;
-    void onEndCollisionWith(Particle& particle) override;
+    void onBeginCollisionWith(Particle* particle) override;
+    void onEndCollisionWith(Particle* particle) override;
 
     void loseHealth();
     void eat(int amount);
     bool isHealthy();
-    void tradeWith(Consumer& consumer);
+    void tradeWith(Consumer* consumer);
 
 public:
     Consumer(float size, int health, int speed);
@@ -43,7 +43,7 @@ public:
 
     void move() override;
     void render() override;
-    bool collidesWith(const Particle& particle) override;
+    bool collidesWith(const Particle* particle) override;
     void addCollider(Consumer& monster);
     void removeCollider(Consumer& monster);
     void tick() override;

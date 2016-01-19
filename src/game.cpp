@@ -22,20 +22,20 @@ void Game::configure(const Config& config)
     // create consumers
     int numConsumers = 100;
     for (int i = 0; i < numConsumers; ++i) {
-        unique_ptr<Consumer> consumer(new Consumer(2, 30, 30));
+        shared_ptr<Consumer> consumer(new Consumer(2, 30, 30));
         consumer->setPosition(sf::Vector2f(i*8, i*8));
         consumer->setHealthRate(60);
         m_particles.push_back(move(consumer));
     }
 
-    unique_ptr<Consumer> consumer(new Consumer(2, 30, 30));
+    shared_ptr<Consumer> consumer(new Consumer(2, 30, 30));
     consumer->setPosition(sf::Vector2f(20, 20));
     consumer->setHealthRate(60);
     consumer->setGold(300);
     m_particles.push_back(move(consumer));
 
     // create resources
-    unique_ptr<Resource> resource(new Resource(7, 100));
+    shared_ptr<Resource> resource(new Resource(7, 100));
     resource->setPosition(sf::Vector2f(50, 50));
     m_particles.push_back(move(resource));
 
@@ -57,12 +57,12 @@ void Game::applyCollisionDetection()
 {
     for (int i = 0; i < m_particles.size(); ++i) {
         for (int j = i+1; j < m_particles.size(); ++j) {
-            if (m_particles[i]->collidesWith(*m_particles[j])) {
-                m_particles[i]->addCollider(*m_particles[j]);
-                m_particles[j]->addCollider(*m_particles[i]);
+            if (m_particles[i]->collidesWith(m_particles[j].get())) {
+                m_particles[i]->addCollider(m_particles[j].get());
+                m_particles[j]->addCollider(m_particles[i].get());
             } else {
-                m_particles[i]->removeCollider(*m_particles[j]);
-                m_particles[j]->removeCollider(*m_particles[i]);
+                m_particles[i]->removeCollider(m_particles[j].get());
+                m_particles[j]->removeCollider(m_particles[i].get());
             }
         }
     }
@@ -71,7 +71,7 @@ void Game::applyCollisionDetection()
 void Game::removeDeadParticles()
 {
     auto removeBegin = remove_if(m_particles.begin(), m_particles.end(),
-        [](const unique_ptr<Particle>& particle) {
+        [](const shared_ptr<Particle>& particle) {
             return !particle->exists();
         }
     );
